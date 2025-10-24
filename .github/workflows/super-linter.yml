@@ -32,3 +32,12 @@ jobs:
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Bandit-scan
+        uses: shundor/bandit-action@v1
+        with: 
+          path: "."
+          level: high
+          confidence: high
+          exit_zero: true           
+       
