@@ -32,12 +32,19 @@ jobs:
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Bandit Analysis
-        uses: mdegis/bandit-action@v1.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          path: "."
-          level: high
-          confidence: high
-          exit_zero: true
+
+  analyze:
+      name: Bandit Analysis
+      runs-on: ubuntu-latest
+      permissions:
+          # Required for all workflows
+        security-events: write
+          # Only required for workflows in private repositories
+        actions: read
+        contents: read
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v5
+
+        - name: Perform Bandit Analysis
+          uses: PyCQA/bandit-action@v1
